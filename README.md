@@ -12,3 +12,4 @@ Wcl score will be displayed, and the color is your  score color
 
 
 PS0: The score is defined as ALLSTAR Point plus percentage
+
