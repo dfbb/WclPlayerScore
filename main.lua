@@ -7,7 +7,7 @@ local _G = getfenv(0)
 
 SLASH_WP_Commands1 = "/wcl"
 SlashCmdList["WP_Commands"] = function(msg)
-	print "WCLPlayerScore Version 1.8 Database: 20200906"
+	print "WCLPlayerScore Version 1.8.3 Database: 20200916"
 end
 
 local function expand(name)
