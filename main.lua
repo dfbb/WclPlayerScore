@@ -3,6 +3,7 @@ local WP_MouseoverName
 
 local WP_ShowPrintOnClick = true
 local _G = getfenv(0)
+local WclPlayerScore = _G.LibStub("AceAddon-3.0"):NewAddon("WclPlayerScore", "AceTimer-3.0")
 
 
 SLASH_WP_Commands1 = "/wcl"
@@ -127,23 +128,21 @@ hooksecurefunc("UnitPopup_ShowMenu", function(dropdownMenu, which, unit, name, u
 
 end)
 
-
-GameTooltip:HookScript("OnTooltipSetUnit", function(self)
-    local _, unit = self:GetUnit()
-	local dstr = ""
-
-    if UnitExists(unit) and UnitIsPlayer(unit) then
-		WP_MouseoverName = UnitName(unit)
-		local dstr = load_data(WP_MouseoverName)
-		if dstr then
-			GameTooltip:AddLine("                          ")
-			GameTooltip:AddLine("                          ")
-			GameTooltip:AddLine("                          ")
-			GameTooltip:AddLine("|cFFFFFF00WCL 评分 " .. dstr, 255, 209, 0)
-			GameTooltip:Show()
+function WclPlayerScore:InitCode()
+	GameTooltip:HookScript("OnTooltipSetUnit", function(self)
+		local _, unit = self:GetUnit()
+		local dstr = ""
+		if UnitExists(unit) and UnitIsPlayer(unit) then
+			WP_MouseoverName = UnitName(unit)
+			local dstr = load_data(WP_MouseoverName)
+			if dstr then
+				GameTooltip:AddLine(dstr, 255, 209, 0)
+				GameTooltip:Show()
+			end
 		end
-	end
-end)
+	end)
+end
+
 
 local Addon_EventFrame = CreateFrame("Frame")
 Addon_EventFrame:RegisterEvent("ADDON_LOADED")
@@ -154,7 +153,7 @@ Addon_EventFrame:SetScript("OnEvent",
 			WP_Database_1 = WP_Database_1 or {}
 			WP_Database_2 = WP_Database_2 or {}
 			WP_Database_3 = WP_Database_3 or {}
-
+			WclPlayerScore:ScheduleTimer("InitCode", 5)
 		end
 end)
 
