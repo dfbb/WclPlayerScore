@@ -8,7 +8,7 @@ local WclPlayerScore = _G.LibStub("AceAddon-3.0"):NewAddon("WclPlayerScore", "Ac
 
 SLASH_WP_Commands1 = "/wcl"
 SlashCmdList["WP_Commands"] = function(msg)
-	print "WCLPlayerScore Version: 1.8.15 Date:20200928 "
+	print "WCLPlayerScore Version: 1.8.16 Date:20200928 "
 end
 
 local function expand(name)
@@ -80,6 +80,24 @@ local function load_data(tname)
 	return nil
 end
 
+local function load_stop(tname)
+	if STOP_Database[tname] then
+		return STOP_Database[tname]
+	else
+		return nil
+	end
+end
+
+local function load_ctop(tname)
+	tname = tname .. "_" .. GetRealmName()
+	if CTOP_Database[tname] then
+		return CTOP_Database[tname]
+	else
+		return nil
+	end
+end
+
+
 hooksecurefunc("ChatFrame_OnHyperlinkShow", function(chatFrame, link, text, button)
 if (IsModifiedClick("CHATLINK")) then
   if (link and button) then
@@ -134,11 +152,19 @@ function WclPlayerScore:InitCode()
 		local dstr = ""
 		if UnitExists(unit) and UnitIsPlayer(unit) then
 			WP_MouseoverName = UnitName(unit)
-			local dstr = load_data(WP_MouseoverName)
+			dstr = load_ctop(WP_MouseoverName)
 			if dstr then
 				GameTooltip:AddLine(dstr, 255, 209, 0)
-				GameTooltip:Show()
 			end
+			dstr = load_stop(WP_MouseoverName)
+			if dstr then
+				GameTooltip:AddLine("本服" .. dstr, 255, 209, 0)
+			end
+			dstr = load_data(WP_MouseoverName)
+			if dstr then
+				GameTooltip:AddLine(dstr, 255, 209, 0)
+			end
+			GameTooltip:Show()
 		end
 	end)
 end
