@@ -8,7 +8,7 @@ local WclPlayerScore = _G.LibStub("AceAddon-3.0"):NewAddon("WclPlayerScore", "Ac
 
 SLASH_WP_Commands1 = "/wcl"
 SlashCmdList["WP_Commands"] = function(msg)
-	print "WCLPlayerScore Version: 1.8.17 Date:20200929 "
+	print "WCLPlayerScore Version: 1.8.18 Date:20201001 "
 end
 
 local function expand(name)
@@ -68,6 +68,9 @@ end
 
 
 local function load_data(tname)
+	if type(WP_Database) ~= "table" then
+		return nil
+	end
 	if WP_Database[tname] then
 		return expand(WP_Database[tname])
 	elseif WP_Database_1[tname] then
@@ -81,6 +84,9 @@ local function load_data(tname)
 end
 
 local function load_stop(tname)
+	if type(STOP_Database) ~= "table" then
+		return nil
+	end
 	if STOP_Database[tname] then
 		return STOP_Database[tname]
 	else
@@ -89,6 +95,9 @@ local function load_stop(tname)
 end
 
 local function load_ctop(tname)
+	if type(CTOP_Database) ~= "table" then
+		return nil
+	end
 	tname = tname .. "_" .. GetRealmName()
 	if CTOP_Database[tname] then
 		return CTOP_Database[tname]
