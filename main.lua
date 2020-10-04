@@ -8,7 +8,7 @@ local WclPlayerScore = _G.LibStub("AceAddon-3.0"):NewAddon("WclPlayerScore", "Ac
 
 SLASH_WP_Commands1 = "/wcl"
 SlashCmdList["WP_Commands"] = function(msg)
-	print "WCLPlayerScore Version: 1.8.22 Date:20201004 "
+	print "WCLPlayerScore Version: 1.8.23 Date:20201005 "
 end
 
 local function expand(name)
@@ -66,6 +66,20 @@ local function expand(name)
     return out
 end
 
+local function cut_str(str)
+	if str ~= nil then
+		local s1,s2,s3 = strsplit("%",str);
+		if s1 ~= nil then
+			s1 = s1 .. "%"
+			if s2 ~= nil then
+				s1 = s1 .. s2 .. "%"
+			end
+			return s1
+		end
+	end
+	return nil
+end
+
 
 local function load_data(tname)
 	if type(WP_Database) ~= "table" then
@@ -80,6 +94,23 @@ local function load_data(tname)
 	elseif WP_Database_3[tname] then
 		return expand(WP_Database_3[tname])
 	end
+	return nil
+end
+
+local function load_stopg(tname)
+	if type(CTOPG_Database) == "table" then
+		sname = tname .. "_" .. GetRealmName()
+		if CTOPG_Database[sname] then
+			return CTOPG_Database[sname]
+		end
+	end
+
+	if type(STOPG_Database) == "table" then
+		if STOPG_Database[tname] then
+			return STOPG_Database[tname]
+		end
+	end
+
 	return nil
 end
 
@@ -129,7 +160,7 @@ end
 end)
 
 local function printInfo(self)
-	print("|cFFFFFF00WCL 评分-" .. self.value)
+	print("|cFFFFFF00WCL评分-" .. self.value)
 end
 
 hooksecurefunc("UnitPopup_ShowMenu", function(dropdownMenu, which, unit, name, userData)
@@ -161,6 +192,13 @@ function WclPlayerScore:InitCode()
 		local dstr = ""
 		if UnitExists(unit) and UnitIsPlayer(unit) then
 			WP_MouseoverName = UnitName(unit)
+			local guildName = GetGuildInfo(WP_MouseoverName)
+			if (guildName ~= nil and guildName ~= "") then
+				dstr = load_stopg(guildName)
+				if dstr then
+					GameTooltip:AddLine(dstr, 255, 209, 0)
+				end
+			end
 			dstr = load_ctop(WP_MouseoverName)
 			if dstr then
 				GameTooltip:AddLine(dstr, 255, 209, 0)
@@ -169,7 +207,7 @@ function WclPlayerScore:InitCode()
 			if dstr then
 				GameTooltip:AddLine("本服" .. dstr, 255, 209, 0)
 			end
-			dstr = load_data(WP_MouseoverName)
+			dstr = cut_str(load_data(WP_MouseoverName))
 			if dstr then
 				GameTooltip:AddLine(dstr, 255, 209, 0)
 			end
