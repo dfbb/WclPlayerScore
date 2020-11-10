@@ -71,7 +71,7 @@ local function cut_str(str)
 		local s1,s2,s3 = strsplit("%",str);
 		if s1 ~= nil then
 			s1 = s1 .. "%"
-			if s2 ~= nil then
+			if s2 ~= nil and s2 ~= " " then
 				s1 = s1 .. s2 .. "%"
 			end
 			return s1
