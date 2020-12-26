@@ -14,6 +14,9 @@ end
 local function expand(name)
 
     local switch = {
+        ["X"] = function()
+            return "NAX"
+        end,
         ["T"] = function()
             return "TAQ"
         end,
