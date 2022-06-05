@@ -8,7 +8,7 @@ local WclPlayerScore = _G.LibStub("AceAddon-3.0"):NewAddon("WclPlayerScore", "Ac
 
 SLASH_WP_Commands1 = "/wcl"
 SlashCmdList["WP_Commands"] = function(msg)
-	print "WCLPlayerScore Version: 1.8.625 Date:20220605 "
+	print "WCLPlayerScore Version: 1.8.626 Date:20220606 "
 end
 
 local function expand(name)
